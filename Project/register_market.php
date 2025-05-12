@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="register_form.css">
+<link rel="stylesheet" href="./css/register_form.css">
 
 
 <?php
