@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/db.php';
 
 // Kullanıcı zaten giriş yaptıysa → dashboard'a yönlendir
 if (isset($_SESSION['email'])) {
