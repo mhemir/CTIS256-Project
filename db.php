@@ -4,13 +4,13 @@ session_start();
 // DEV mod için, production’da false yapmayı unutma
 define('DEV_MODE', true);
 
-if(DEV_MODE){
-  // 1 nolu consumer hesabıyla logged in say
-  $_SESSION['user_id'] = 4;
-  $_SESSION['user_role'] = 'consumer';
-  $_SESSION['email'] = 'test@dev';
-
+if (DEV_MODE) {
+  // Test market hesabıyla otomatik giriş
+  $_SESSION['user_id']   = 11;         // market tablosundaki test market ID’n
+  $_SESSION['user_role'] = 'market';   // rolü market yap
+  $_SESSION['email']     = 'test@dev'; // opsiyonel, eğer email check yapıyorsan
 }
+
 
 $dsn  = "mysql:host=localhost;dbname=project;charset=utf8mb4";
 $user = "root";
