@@ -20,7 +20,20 @@
             <option value="consumer">Consumer</option>
         </select><br><br>
 
+        <input type="checkbox" name="remember">
+
         <button type="submit">Login</button>
     </form>
+    
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+

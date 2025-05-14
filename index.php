@@ -1,25 +1,39 @@
 <?php
-require_once __DIR__ . '/db.php';
+  session_start();
 
-// Kullanıcı zaten giriş yaptıysa → dashboard'a yönlendir
-if (isset($_SESSION['email'])) {
-    header("Location: dashboard.php");
-    exit;
-}
-?>
+  // if the user has already logged in, don't show login form
+  if ( isset($_SESSION["user"])) {
+      header("Location: dashboard.php") ; // auto login
+      exit ;
+   } 
 
+   require "check.php" ;
+   // Remember-me part
+   if (isset($_COOKIE["access_token"])) {
+      $user = getUserByToken($_COOKIE["access_token"]) ;
+      if ( $user ) {
+          $_SESSION["user"] = $user ; // auto login
+          header("Location: dashboard.php") ;
+          exit ; 
+      }
+   }
+ ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Sustainable Market</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome to the Sustainability Market App</h2>
-
-    <p>Please login or register to continue:</p>
-
-    <a href="login.php">Login</a> |
-    <a href="register.php">Register</a>
+    <h1>Welcome to the Sustainability Market App</h1>
+  
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+   
 </body>
 </html>

@@ -1,22 +1,22 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require 'db.php';
 
-
+session_start();
 
 
 // Eğer kullanıcı giriş yapmadıysa, login sayfasına yönlendir
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['email'])) {
+//     header("Location: index.php");
+//     exit;
+// }
 
 // Oturumdan kullanıcı bilgilerini al
-$email = $_SESSION['email'];
-$type = $_SESSION['user_role']; // "market" veya "consumer"
+$email = $_SESSION['user']['email'];
+$type = $_SESSION['user']['type']; // "market" veya "consumer"
 ?>
 
 <!DOCTYPE html>
@@ -46,10 +46,10 @@ $type = $_SESSION['user_role']; // "market" veya "consumer"
 <?php
 // en üstte zaten db.php include var, $_SESSION dolu vs.
 // Sadece marketse göster
-if($_SESSION['user_role']==='market'){
+if($_SESSION['user']["type"] == 'market'){
   // O market’e ait ürünleri çek
   $stmt = $db->prepare("SELECT * FROM products WHERE market_id=? ORDER BY created_at DESC");
-  $stmt->execute([$_SESSION['user_id']]);
+  $stmt->execute([$_SESSION['user']['id']]);
   $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
   ?>
   <h3>Ürün Yönetimi</h3>
@@ -77,7 +77,7 @@ if($_SESSION['user_role']==='market'){
 }
 ?>
 
-<?php if($_SESSION['user_role']==='consumer'): ?>
+<?php if($_SESSION['user']["type"]==='consumer'): ?>
   <h3>Ürün Ara</h3>
   <form action="search.php" method="GET">
     <input type="text" name="q" placeholder="Anahtar kelime gir" required>

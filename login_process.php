@@ -1,27 +1,25 @@
 <?php
+require "db.php";
 session_start();
-include 'db.php';
 
 // 1. Form verilerini al
 $email = $_POST['email'];
 $password = $_POST['password'];
 $type = $_POST['type'];  // "market" veya "consumer"
 
-// 2. Hangi tabloya bakacağımızı belirle
-$table = ($type === 'market') ? 'markets' : 'consumers';
+$table = "user";
 
 // 3. Kullanıcıyı bul
-$stmt = $db->prepare("SELECT * FROM $table WHERE email = :email");
-$stmt->execute([':email' => $email]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $db->prepare("SELECT * FROM $table WHERE email = ?");
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+$_SESSION['user'] = $user;
 
 if ($user) {
     // 4. Şifre doğru mu ve verified = 1 mi?
-    if ($password === $user['password']) {
+    require "check.php";
+    if (checkUser($email, $password, $user)) {
         if ($user['verified'] == 1) {
-            // 5. Giriş başarılı → session başlat
-            $_SESSION['email'] = $email;
-            $_SESSION['user_type'] = $type;
             echo "✅ Giriş başarılı. Hoş geldin, $email";
             header("Location: dashboard.php"); 
         } else {

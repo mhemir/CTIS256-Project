@@ -1,19 +1,18 @@
 <?php
-include 'db.php';  // Veritabanı bağlantısı
-
+require 'db.php';  // Veritabanı bağlantısı
+session_start();
 // 1. Formdan gelen verileri al
-$email = $_POST['email'];
 $code = $_POST['code'];
-$type = $_POST['type'];  // "market" veya "consumer"
-
+// $type = $_POST['type'];  // "market" veya "consumer"
+$email = $_SESSION["email"];
 // 2. Hangi tabloya bakacağımızı belirle
-$table = ($type === 'market') ? 'markets' : 'consumers';
-
+// $table = ($type === 'market') ? 'markets' : 'consumers';
+$table = "user";
 // 3. Kullanıcıyı ve doğrulama kodunu kontrol et
-$stmt = $db->prepare("SELECT * FROM $table WHERE email = :email AND verify_code = :code");
+$stmt = $db->prepare("SELECT * FROM $table WHERE email = ? AND verify_code = ?");
 $stmt->execute([
-    ':email' => $email,
-    ':code' => $code
+    $email,
+    $code
 ]);
 
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -30,4 +29,6 @@ if ($user) {
     // 5. Kod yanlışsa veya kullanıcı bulunamazsa
     echo "❌ Hatalı kod ya da e-posta. Lütfen tekrar deneyin.";
 }
+
+session_destroy();
 ?>

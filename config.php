@@ -1,6 +1,6 @@
 <?php
-define('DEV_MODE', true);
-
-const MAIL = 'emir.kilic@ug.bilkent.edu.tr';
-const PASSWORD = 'Sgn1oxYT';
+const MAIL = "emir.yilmaz@ug.bilkent.edu.tr";
+const PASS = "ilker444";
+const HOST = "asmtp.bilkent.edu.tr";
+const FULLNAME = "Sustainability Market";
 ?>
