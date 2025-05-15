@@ -5,7 +5,7 @@ session_start();
 // 1. Form verilerini al
 $email = $_POST['email'];
 $password = $_POST['password'];
-$type = $_POST['type'];  // "market" veya "consumer"
+
 
 $table = "user";
 
