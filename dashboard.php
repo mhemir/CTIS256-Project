@@ -18,7 +18,7 @@ session_start();
 $email = $_SESSION['user']['email'];
 $type = $_SESSION['user']['type']; // "market" veya "consumer"
 ?>
-
+<!-- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +27,7 @@ $type = $_SESSION['user']['type']; // "market" veya "consumer"
 </head>
 <body>
 
-    <h2>Welcome, <?php echo htmlspecialchars($email); ?></h2>
+    <h2>Welcome, <?php echo htmlspecialchars($email); ?></h2> -->
 
    <?php
 if ($_SESSION['user']['type'] === 'market') {
@@ -37,12 +37,12 @@ if ($_SESSION['user']['type'] === 'market') {
     header('Location: customer.php');
     exit;
 } ?>
-
+<!-- 
     <br><br>
     <a href="logout.php">Log out</a>
 
 </body>
-</html>
+</html> -->
 
 
 

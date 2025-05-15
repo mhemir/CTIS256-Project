@@ -65,5 +65,6 @@ exit;
 
 } catch (PDOException $e) {
     echo "Registration failed: " . $e->getMessage();
+    print_r($_POST);
 }
 ?>

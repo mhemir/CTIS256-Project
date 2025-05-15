@@ -24,7 +24,7 @@
 
         <button type="submit">Login</button>
     </form>
-    
+    <a href="index.php">Go back to main page</a>
 
 </body>
 </html>

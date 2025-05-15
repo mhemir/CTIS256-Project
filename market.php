@@ -26,4 +26,5 @@
     </tr>
     <?php endforeach; ?>
   </table>
-?>
+  <br><br>
+  <a href="logout.php">Log out</a>

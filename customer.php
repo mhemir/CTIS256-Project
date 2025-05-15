@@ -40,7 +40,8 @@ $total = $stmt->fetchColumn();
 </p>
 
 
-
+<br><br>
+<a href="logout.php">Log out</a>
 </body>
 </html>
 
