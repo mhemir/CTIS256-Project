@@ -133,20 +133,19 @@ CREATE TABLE IF NOT EXISTS `shopping_cart_items` (
 -- Tablo için tablo yapısı `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `password` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `type` varchar(10) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `district` varchar(50) NOT NULL,
-  `verify_code` int NOT NULL,
-  `verified` bigint NOT NULL,
-  `remember` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    type VARCHAR(50),
+    city VARCHAR(100),
+    district VARCHAR(100),
+    verify_code VARCHAR(6),
+    verified TINYINT(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Tablo döküm verisi `user`
