@@ -1,7 +1,8 @@
 <?php
 require 'db.php';
+session_start();
 // DEV_MODE girişi var, role kontrolü
-if($_SESSION['user_role']!=='market') exit('Yetkisiz');
+if($_SESSION['user']['type']!=='market') exit('Yetkisiz');
 // Post geldiyse işle
 if($_SERVER['REQUEST_METHOD']==='POST'){
   // filtrasyon vs.

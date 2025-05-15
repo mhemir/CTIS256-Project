@@ -1,12 +1,13 @@
 <?php
 require 'db.php';
-if($_SESSION['user_role']!=='consumer') exit('Yetkisiz');
+session_start();
+if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
 
-$q = trim($_GET['q'] ?? '');
-if(!$q) exit('Kelime gir');
+$searchQuery = trim($_GET['q'] ?? '');
+if(!$searchQuery) exit('Kelime gir');
 
-$user_city     = 'Istanbul';  // test için sabit, ileride session’dan alırsın
-$user_district = 'Kadikoy';
+$user_city     = $_SESSION['user']['city'];  
+$user_district = $_SESSION['user']['district'];
 
 $sql = "
   SELECT p.*, m.city, m.district 
@@ -21,7 +22,7 @@ $sql = "
 
 $stmt = $db->prepare($sql);
 $stmt->execute([
-  ':kw'       => "%$q%",
+  ':kw'       => "%$searchQuery%",
   ':city'     => $user_city,
   ':district' => $user_district
 ]);
@@ -29,7 +30,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
-<h2>Arama Sonuçları (<?=htmlspecialchars($q)?>)</h2>
+<h2>Arama Sonuçları (<?=htmlspecialchars($searchQuery)?>)</h2>
 <?php if(!$results): ?>
   <p>Ürün bulunamadı.</p>
 <?php else: ?>
