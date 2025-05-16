@@ -1,52 +1,49 @@
 <?php
-// Hata raporlamayı aç
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// DB ve session load
+session_start();
 require 'db.php';
 
-// (İstersen path kontrolü için)
-// if (!isset($db)) { die('!! $db tanımsız'); }
+if (!isset($_SESSION['user']['id']) || $_SESSION['user']['type'] !== 'consumer') {
+    http_response_code(403);
+    echo "Yetkisiz erişim";
+    exit;
+}
 
-// Geri kalan kod...
+$consumer_id = $_SESSION['user']['id'];
+$product_id = $_POST['product_id'] ?? 0;
+$quantity = $_POST['quantity'] ?? 1;
 
-if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
-$pid = (int)($_POST['product_id'] ?? 0);
-$qty = max(1, (int)($_POST['quantity'] ?? 1));
+if (!$product_id || $quantity < 1) {
+    http_response_code(400);
+    echo "Geçersiz veri";
+    exit;
+}
 
-// 1) Sepet tablosunda bu kullanıcıya ait sepet var mı?
-$stmt = $db->prepare("SELECT id FROM shopping_cart WHERE consumer_id=?");
-$stmt->execute([$_SESSION['user_id']]);
+// Sepeti al, yoksa oluştur
+$stmt = $db->prepare("SELECT id FROM shopping_cart WHERE consumer_id = ?");
+$stmt->execute([$consumer_id]);
 $cart = $stmt->fetch(PDO::FETCH_ASSOC);
-if(!$cart){
-  $db->prepare("INSERT INTO shopping_cart (consumer_id) VALUES (?)")
-     ->execute([$_SESSION['user_id']]);
-  $cart_id = $db->lastInsertId();
+
+if (!$cart) {
+    $stmt = $db->prepare("INSERT INTO shopping_cart (consumer_id) VALUES (?)");
+    $stmt->execute([$consumer_id]);
+    $cart_id = $db->lastInsertId();
 } else {
-  $cart_id = $cart['id'];
+    $cart_id = $cart['id'];
 }
 
-// 2) Ürün zaten varsa quantity güncelle, yoksa insert
-$stmt = $db->prepare(
-  "SELECT id, quantity FROM shopping_cart_items 
-   WHERE cart_id=? AND product_id=?"
-);
-$stmt->execute([$cart_id,$pid]);
-$item = $stmt->fetch(PDO::FETCH_ASSOC);
+// Aynı ürün zaten sepette mi?
+$stmt = $db->prepare("SELECT id FROM shopping_cart_items WHERE cart_id = ? AND product_id = ?");
+$stmt->execute([$cart_id, $product_id]);
+$existing = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($item){
-  $newQty = $item['quantity'] + $qty;
-  $db->prepare(
-    "UPDATE shopping_cart_items SET quantity=? 
-     WHERE id=?"
-  )->execute([$newQty, $item['id']]);
+if ($existing) {
+    // Miktarı artır
+    $stmt = $db->prepare("UPDATE shopping_cart_items SET quantity = quantity + ? WHERE id = ?");
+    $stmt->execute([$quantity, $existing['id']]);
 } else {
-  $db->prepare(
-    "INSERT INTO shopping_cart_items (cart_id,product_id,quantity)
-     VALUES (?,?,?)"
-  )->execute([$cart_id,$pid,$qty]);
+    // Yeni ekle
+    $stmt = $db->prepare("INSERT INTO shopping_cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)");
+    $stmt->execute([$cart_id, $product_id, $quantity]);
 }
 
-echo 'Sepete eklendi!';
+echo "Ürün sepete eklendi.";
