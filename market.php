@@ -63,7 +63,7 @@
    <!-- Ürün yönetimi tablosu burada -->
  <?php endif; ?>
  <h3>Ürün Yönetimi</h3>
- <a href="add_product.php">+ Yeni Ürün Ekle</a>
+ <a href="add_product.php">+ Add a new product</a>
  <table>
    <tr>
      <th>Title</th>
@@ -88,9 +88,9 @@
          <?php endif; ?>
        </td>
        <td>
-         <a href="edit_product.php?id=<?= $p['id'] ?>">Düzenle</a> |
+         <a href="edit_product.php?id=<?= $p['id'] ?>">Edit</a> |
          <a href="delete_product.php?id=<?= $p['id'] ?>"
-           onclick="return confirm('Silinsin mi?')">Sil</a>
+           onclick="return confirm('Are you sure to delete?')">Delete</a>
        </td>
      </tr>
    <?php endforeach; ?>
