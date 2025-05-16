@@ -20,6 +20,7 @@ if ($id > 0) {
     exit;
   } else {
     echo "Ürün bulunamadı ya da size ait değil.";
+    
     exit;
   }
 } else {

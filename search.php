@@ -8,14 +8,16 @@ $q = trim($_GET['q'] ?? '');
 if (!$q) exit('Kelime gir');
 
 $sql = "
-  SELECT p.*, m.name AS market_name 
+  SELECT p.*, u.name AS market_name
   FROM products p
-  JOIN markets m ON m.id = p.market_id
+  JOIN user u ON u.id = p.market_id
   WHERE p.expiration_date >= CURDATE()
     AND p.title LIKE :kw
+    AND u.type = 'market'
   ORDER BY p.title ASC
   LIMIT 20
 ";
+
 
 $stmt = $db->prepare($sql);
 $stmt->execute([

@@ -35,13 +35,31 @@ $total = $stmt->fetchColumn();
   <p style="margin-top:1rem;">
   <a href="cart.php"
      style="display:inline-block; padding:8px 12px; background:#28a745; color:#fff; text-decoration:none; border-radius:4px;">
-    🛒 Sepetim (<?= $total ?>)
+    🛒 Sepetim (<span id="cart-count">...</span>)
   </a>
 </p>
+
 
 
 <br><br>
 <a href="logout.php">Log out</a>
 </body>
 </html>
+
+<script>
+function updateCartTotal() {
+  fetch("cart_total.php")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("cart-count").textContent = data.total;
+    })
+    .catch(err => {
+      
+      document.getElementById("cart-count").textContent = "?";
+    });
+}
+
+updateCartTotal(); // sayfa yüklenince hemen çağır
+</script>
+
 

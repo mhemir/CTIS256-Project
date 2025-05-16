@@ -46,4 +46,6 @@ if ($existing) {
     $stmt->execute([$cart_id, $product_id, $quantity]);
 }
 
+
+
 echo "Ürün sepete eklendi.";

@@ -1,20 +1,36 @@
 <?php
+session_start(); // ✅ DOĞRU hali
 require 'db.php';
-if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
 
-// Kullanıcının sepet id'sini al
+if ($_SESSION['user']['type'] !== 'consumer') {
+  exit('Yetkisiz');
+}
+
+// Kullanıcının sepet ID'sini al
 $stmt = $db->prepare("SELECT id FROM shopping_cart WHERE consumer_id = ?");
 $stmt->execute([$_SESSION['user']['id']]);
 $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($cart){
+$stmt = $db->prepare("SELECT product_id, quantity FROM shopping_cart_items WHERE cart_id = ?");
+$stmt->execute([$cart['id']]);
+$items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if ($cart) {
   // Sepet içeriğini sil
   $db->prepare("DELETE FROM shopping_cart_items WHERE cart_id = ?")
      ->execute([$cart['id']]);
-  // İstersen sepet kaydını da sil:
+
+  foreach ($items as $item) {
+    $stmt = $db->prepare("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?");
+    $stmt->execute([$item['quantity'], $item['product_id'], $item['quantity']]);
+}
+
+  // Sepetin kendisini de silmek istersen:
   // $db->prepare("DELETE FROM shopping_cart WHERE id = ?")
   //    ->execute([$cart['id']]);
 }
 
-echo '<p>Satın alma başarılı! 🥳</p>';
-echo '<p><a href="dashboard.php">Anasayfaya dön</a></p>';
+// AJAX için sade çıktı:
+echo "Satın alma başarılı!";
+
+

@@ -92,11 +92,23 @@ $(".remove").on("click", function () {
 
 // Satın al
 $("#purchase").on("click", function () {
+    if (!confirm("Satın almak istediğine emin misin?")) return;
+
     $.post("checkout.php", {}, function (response) {
         alert(response);
-        location.reload();
+
+        // 🧼 Sepetteki tüm satırları DOM'dan sil
+        $("tr[data-id]").remove();
+
+        // 🧮 Genel toplamı sıfırla
+        $("#total").text("0.00");
+
+        // (isteğe bağlı) "Sepet boş" mesajı
+        $("table").after("<p>Sepetiniz boş 😢</p>");
     });
 });
+
+    updateCartTotal(); // sayfa yüklenince hemen çağır
 </script>
 </body>
 </html>
