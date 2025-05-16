@@ -1,6 +1,6 @@
 <?php
 require 'db.php';
-if($_SESSION['user_role']!=='consumer') exit('Yetkisiz');
+if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
 
 $id = (int)($_GET['id'] ?? 0);
 if($id){

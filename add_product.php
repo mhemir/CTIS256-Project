@@ -1,7 +1,7 @@
 <?php
 require 'db.php';
 session_start();
-// DEV_MODE girişi var, role kontrolü
+// DEV_MODE girişi var, type kontrolü
 if ($_SESSION['user']['type'] !== 'market') exit('Yetkisiz');
 // Post geldiyse işle
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -12,7 +12,7 @@ require 'db.php';
 
 // Geri kalan kod...
 
-if($_SESSION['user_role']!=='consumer') exit('Yetkisiz');
+if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
 $pid = (int)($_POST['product_id'] ?? 0);
 $qty = max(1, (int)($_POST['quantity'] ?? 1));
 

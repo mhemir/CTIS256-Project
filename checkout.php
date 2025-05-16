@@ -1,10 +1,10 @@
 <?php
 require 'db.php';
-if($_SESSION['user_role']!=='consumer') exit('Yetkisiz');
+if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
 
 // Kullanıcının sepet id'sini al
 $stmt = $db->prepare("SELECT id FROM shopping_cart WHERE consumer_id = ?");
-$stmt->execute([$_SESSION['user_id']]);
+$stmt->execute([$_SESSION['user']['id']]);
 $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if($cart){

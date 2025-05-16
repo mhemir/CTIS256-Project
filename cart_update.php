@@ -1,16 +1,18 @@
 <?php
-require 'db.php';
-if($_SESSION['user_role']!=='consumer') exit('Yetkisiz');
+require_once "db.php";
 
-$itemId = (int)($_POST['item_id'] ?? 0);
-$qty    = max(1,(int)($_POST['quantity'] ?? 1));
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $item_id = $_POST["item_id"] ?? null;
 
-if($itemId){
-  $db->prepare(
-    "UPDATE shopping_cart_items 
-     SET quantity=? 
-     WHERE id=?"
-  )->execute([$qty,$itemId]);
+    if (isset($_POST["delete"])) {
+        $stmt = $db->prepare("DELETE FROM shopping_cart_items WHERE id = ?");
+        $stmt->execute([$item_id]);
+        echo "silindi";
+        exit;
+    }
+
+    $quantity = $_POST["quantity"] ?? 1;
+    $stmt = $db->prepare("UPDATE shopping_cart_items SET quantity = ? WHERE id = ?");
+    $stmt->execute([$quantity, $item_id]);
+    echo "güncellendi";
 }
-
-echo 'Adet güncellendi';

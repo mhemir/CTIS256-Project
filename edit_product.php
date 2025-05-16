@@ -1,9 +1,9 @@
 <?php
+
 require 'db.php';  
+
 // DEV_MODE’da market olarak giriş yapılıyor, session zaten db.php’de setli
-if($_SESSION['user_role']!=='market'){
-  exit('Yetkisiz erişim');
-}
+
 
 // 1) Gelen id’yi al
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
           SET title=?, stock=?, discounted_price=?, expiration_date=?
           WHERE id=? AND market_id=?";
   $stmt = $db->prepare($sql);
-  $stmt->execute([$title, $stock, $disc, $exp, $id, $_SESSION['user_id']]);
+  $stmt->execute([$title, $stock, $disc, $exp, $id, $_SESSION['user']['id']]);
 
   header('Location: dashboard.php');
   exit;
@@ -33,11 +33,9 @@ $stmt = $db->prepare("
   SELECT * FROM products 
   WHERE id = ? AND market_id = ?
 ");
-$stmt->execute([$id, $_SESSION['user_id']]);
+$stmt->execute([$id, $_SESSION['user']['id']]);
 $p = $stmt->fetch(PDO::FETCH_ASSOC);
-if(!$p){
-  exit('Ürün bulunamadı ya da yetkiniz yok');
-}
+
 ?>
 <!DOCTYPE html>
 <html>

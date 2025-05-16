@@ -1,36 +1,32 @@
 <?php
-require 'db.php';
 session_start();
-if($_SESSION['user']['type']!=='consumer') exit('Yetkisiz');
+require 'db.php';
 
-$searchQuery = trim($_GET['q'] ?? '');
-if(!$searchQuery) exit('Kelime gir');
+if ($_SESSION['user']['type'] !== 'consumer') exit('Yetkisiz');
 
-$user_city     = $_SESSION['user']['city'];  
-$user_district = $_SESSION['user']['district'];
+$q = trim($_GET['q'] ?? '');
+if (!$q) exit('Kelime gir');
 
 $sql = "
-  SELECT p.*, m.city, m.district 
+  SELECT p.*, m.name AS market_name 
   FROM products p
   JOIN markets m ON m.id = p.market_id
   WHERE p.expiration_date >= CURDATE()
     AND p.title LIKE :kw
-    AND m.city = :city
-  ORDER BY (m.district = :district) DESC
+  ORDER BY p.title ASC
   LIMIT 20
 ";
 
 $stmt = $db->prepare($sql);
 $stmt->execute([
-  ':kw'       => "%$searchQuery%",
-  ':city'     => $user_city,
-  ':district' => $user_district
+  ':kw' => "%$q%"
 ]);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
-<h2>Arama Sonuçları (<?=htmlspecialchars($searchQuery)?>)</h2>
+
+<h2>Arama Sonuçları (<?=htmlspecialchars($q)?>)</h2>
 <?php if(!$results): ?>
   <p>Ürün bulunamadı.</p>
 <?php else: ?>

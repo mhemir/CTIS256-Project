@@ -7,7 +7,16 @@
       exit ;
    } 
 
-
+   require "check.php" ;
+   // Remember-me part
+   if (isset($_COOKIE["access_token"])) {
+      $user = getUserByToken($_COOKIE["access_token"]) ;
+      if ( $user ) {
+          $_SESSION["user"] = $user ; // auto login
+          header("Location: dashboard.php") ;
+          exit ; 
+      }
+   }
  ?>
 <!DOCTYPE html>
 <html lang="en">
