@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../../db.php';
 
 // Security Check
 if (!isset($_SESSION['user']['id']) || $_SESSION['user']['type'] !== 'market') {
@@ -25,7 +25,7 @@ if ($id > 0) {
 
   // Check if it is deleted 
   if ($stmt->rowCount() > 0) {
-    header('Location: dashboard.php?deleted=1');
+    header('Location: ../dashboard.php');
     exit;
   } else {
     echo "Products couldn't find or this product does not belong to you.";
