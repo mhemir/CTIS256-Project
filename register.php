@@ -88,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           crossorigin="anonymous">
 </head>
 <body class="bg-light">
+<<<<<<< HEAD
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="card shadow p-5" style="max-width: 500px; width: 100%;">
     <?php if ($step === 'register'): ?>
@@ -104,6 +105,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="text" name="name" class="form-control" placeholder="Full Name / Market Name" required>
             </div>
 
+=======
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-5" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4">Register</h2>
+
+        <form action="register_process.php" method="POST">
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" name="name" class="form-control" placeholder="Full Name / Market Name" required>
+            </div>
+
+>>>>>>> c0bdc003bf31f81a1198cb195c8a518a0da18e75
             <div class="mb-3">
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
@@ -125,6 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <button type="submit" class="btn btn-success w-100">Register</button>
+<<<<<<< HEAD
     <?php elseif ($step === 'verify'): ?>
         <h2>Verify Your Email</h2>
         <?php if ($error): ?>
@@ -143,5 +161,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
 </div>
     <?php endif; ?>
+=======
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+>>>>>>> c0bdc003bf31f81a1198cb195c8a518a0da18e75
 </body>
 </html>

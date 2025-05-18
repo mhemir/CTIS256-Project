@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           crossorigin="anonymous">
 </head>
 <body class="bg-light">
+<<<<<<< HEAD
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-5" style="max-width: 500px; width: 100%;">
         <h2 class="text-center mb-4">Login</h2>
@@ -61,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form action="?" method="POST">
+=======
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-5" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4">Login</h2>
+
+        <form action="login_process.php" method="POST">
+>>>>>>> c0bdc003bf31f81a1198cb195c8a518a0da18e75
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" name="email" class="form-control" required>
@@ -79,5 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+=======
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+>>>>>>> c0bdc003bf31f81a1198cb195c8a518a0da18e75
 </body>
 </html>
